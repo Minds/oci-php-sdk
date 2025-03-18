@@ -489,7 +489,8 @@ class ObjectStorageClient extends AbstractClient
             HttpUtils::orNull($params, "namespaceName", true),
             HttpUtils::orNull($params, "bucketName", true),
             HttpUtils::orNull($params, "createPreauthenticatedRequestDetails", true),
-            HttpUtils::orNull($params, "opcClientRequestId")
+            HttpUtils::orNull($params, "opcClientRequestId"),
+            HttpUtils::orNull($params, "httpResponseContentDisposition"),
         );
     }
 
@@ -507,7 +508,8 @@ class ObjectStorageClient extends AbstractClient
         $namespaceName,
         $bucketName,
         $createPreauthenticatedRequestDetails,
-        $opcClientRequestId = null
+        $opcClientRequestId = null,
+        $httpResponseContentDisposition = null,
     ) {
         $__headers = ['Content-Type' => 'application/json', 'User-Agent' => UserAgent::getUserAgent()];
         if ($opcClientRequestId != null) {
@@ -515,6 +517,10 @@ class ObjectStorageClient extends AbstractClient
         }
 
         $__query = [];
+
+        if ($httpResponseContentDisposition != null) {
+            HttpUtils::addToArray($__query, "httpResponseContentDisposition", HttpUtils::attemptEncodeParam($httpResponseContentDisposition));
+        }
 
         $__queryStr = HttpUtils::queryMapToString($__query);
 
